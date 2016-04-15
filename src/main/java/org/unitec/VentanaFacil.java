@@ -5,6 +5,7 @@
  */
 package org.unitec;
 
+import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -95,7 +96,17 @@ public class VentanaFacil extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
             // TODO add your handling code here:
-            ModeloConexion.conectarse("root", "");
+           
+            //Haremos una insercion con JSBC a la tabla Facil
+            //Paso 1 crear un objeto de tipo Conexion
+           Connection con= ModeloConexion.conectarse("root", "");
+           //Paso 2 con esta conexion invocar un statement ya preparado
+           
+          PreparedStatement st= con.prepareStatement("insert into FACIL(nombre,edad) values(?,?)");
+          st.setString(1, textoNombre.getText());
+          st.setInt(2,Integer.parseInt( textoEdad.getText()));
+          st.execute();
+          etiquetaInformacion.setText("Registro insertado");
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
